@@ -1,0 +1,120 @@
+.modal-container {
+  display: inline;
+}
+
+.modal-btn-block {
+  display: flex;
+  gap: 5px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  margin-bottom: 10px;
+}
+
+.modal-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  max-height: 80vh;
+  max-width: 40vw;
+  width: 100%;
+  padding: 0 40px 40px 40px;
+  border-radius: 20px;
+  background-color: white;
+  z-index: 2;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.modal-main {
+  margin-bottom: 40px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.modal-input-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-number-input {
+  margin-left: auto;
+  min-width: 30%;
+}
+
+.error {
+  border: 2px solid red;
+}
+
+input.error[type="number"]:focus {
+  outline: 1px solid red;
+  border: 2px solid red;
+}
+
+.close-modal-btn {
+  border: none;
+  background-color: unset;
+  cursor: pointer;
+}
+
+.close-icon {
+  width: 35px;
+  height: 35px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-btn.btn-prime {
+  background-color: rgb(105, 255, 205);
+}
+
+@media (max-width: 1012px) {
+  .modal {
+    font-size: medium;
+    max-width: 60vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal {
+    min-width: 80vw;
+  }
+
+  .modal-btn-block {
+    font-size: 0.7rem;
+  }
+
+  .close-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  .modal {
+    font-size: small;
+  }
+}

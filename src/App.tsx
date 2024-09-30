@@ -1,4 +1,4 @@
-import MainTable from "./components/MainTable/MainTable";
+import MainTable from "./features/MainTable/MainTable";
 
 import logo from "./assets/memCrabLogo.svg";
 

@@ -1,4 +1,4 @@
-import { FormEvent, FormEventHandler, useState } from "react";
+import { FormEvent, useState } from "react";
 
 import ModalForm from "./components/ModalForm/ModalForm";
 
@@ -25,14 +25,17 @@ const Modal: React.FC<IModalProps> = ({
     setIsModalVisible(false);
   };
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = (
-    e: FormEvent<HTMLFormElement>
-  ) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = { ...defaultModalData };
-    const formData = new FormData(e.target as HTMLFormElement);
+    const data = {
+      ...defaultModalData,
+    };
+    const formData: FormData = new FormData(e.target as HTMLFormElement);
+
     for (const item of formData) {
-      data[item[0] as EInputNames] = +item[1];
+      const [key, value] = item;
+
+      data[key as EInputNames] = value as string;
     }
 
     onSubmitModal(data);
@@ -42,16 +45,10 @@ const Modal: React.FC<IModalProps> = ({
   return (
     <div className="modal-container">
       <div className="modal-btn-block">
-        <button
-          className="btn-prime"
-          onClick={() => setIsModalVisible(true)}
-        >
+        <button className="btn-prime" onClick={() => setIsModalVisible(true)}>
           Manage table
         </button>
-        <button
-          className="btn-prime "
-          onClick={() => generateRow()}
-        >
+        <button className="btn-prime " onClick={() => generateRow()}>
           Add row
         </button>
       </div>

@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 
-import TableComponent from "../TableComponent/TableComponent";
-import Modal from "../Modal/Modal";
+import TableComponent from "../../components/TableComponent/TableComponent";
+import Modal from "../../components/Modal/Modal";
 
 import { useTableData } from "../../hooks/useTableData";
-import { ITableModal, TCell } from "../TableComponent/interfaces";
+import { ITableModal, TCell } from "../../components/TableComponent/interfaces";
 import { defaultModalData } from "./utils";
 
 const MainTable: React.FC = () => {
@@ -15,15 +15,12 @@ const MainTable: React.FC = () => {
   const preparedModalData = useMemo(
     () => ({
       ...modalData,
-      rowsAmount: tableData.rows.length,
+      rowsAmount: String(tableData.rows.length),
     }),
     [tableData.rows]
   );
 
-  const handleCellClick = (
-    cell: TCell,
-    increment?: number
-  ) => {
+  const handleCellClick = (cell: TCell, increment?: number) => {
     incrementCellValue(cell, increment);
   };
 

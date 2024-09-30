@@ -11,6 +11,7 @@ import {
 } from "./utils";
 
 import iconDelete from "../../assets/icon-delete3.svg";
+import "./TableComponent.css";
 
 const TableComponent: React.FC<ITableProps> = (props) => {
   const { rows, columns, nearestCellsAmount, onCellClick, handleDeleteRow } =
@@ -65,7 +66,7 @@ const TableComponent: React.FC<ITableProps> = (props) => {
     const rowNodeList = (e.target as HTMLTableCellElement).closest("tr")
       ?.parentNode?.childNodes;
 
-    const allCells = Array.prototype.map
+    const allCells: HTMLTableCellElement[] = Array.prototype.map
       .call(rowNodeList, (val) => {
         const cellsCollection = val.cells as HTMLCollection;
         const cellsArr: Element[] = [];
@@ -91,7 +92,7 @@ const TableComponent: React.FC<ITableProps> = (props) => {
       return Math.abs(aNum - +targetNum) - Math.abs(bNum - +targetNum);
     });
 
-    const nearestCells = filteredCells.slice(0, nearestCellsAmount);
+    const nearestCells = filteredCells.slice(0, +nearestCellsAmount);
 
     prepareNearestCells(nearestCells as HTMLTableCellElement[]);
 
@@ -111,10 +112,10 @@ const TableComponent: React.FC<ITableProps> = (props) => {
       <tbody>
         {rows.map((rowData, i) => {
           const rowSum = rowData.getRowSum();
-          const nearestCellsCache = new Object({
-            hoveredValue: null,
+          const nearestCellsCache: TNearestCellsCache = {
+            hoveredValueId: null,
             targetCells: [],
-          }) as TNearestCellsCache;
+          };
 
           const handleOverAmount =
             handleMouseOverAmountCell.bind(nearestCellsCache);

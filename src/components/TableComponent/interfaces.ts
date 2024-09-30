@@ -19,9 +19,9 @@ export type TColumn = {
 };
 
 export interface ITableModal {
-  rowsAmount: number;
-  colsAmount: number;
-  nearestAmount: number;
+  rowsAmount: string;
+  colsAmount: string;
+  nearestAmount: string;
 }
 
 export interface ITableData {
@@ -30,7 +30,7 @@ export interface ITableData {
 }
 
 export interface ITableProps extends ITableData {
-  nearestCellsAmount: number;
+  nearestCellsAmount: string;
   onCellClick: (
     cell: TCell,
     increment?: number

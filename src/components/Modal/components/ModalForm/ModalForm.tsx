@@ -94,7 +94,7 @@ const ModalForm: React.FC<IModalFormProps> = (props) => {
               onChange={(e) =>
                 handleChangeNumbers(e, EInputNames.NearestAmount)
               }
-              max={modalData.colsAmount * modalData.rowsAmount - 1}
+              max={+modalData.colsAmount * (+modalData.rowsAmount - 1)}
               min={1}
             />
           </div>

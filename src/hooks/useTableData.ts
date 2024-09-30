@@ -52,13 +52,13 @@ export const useTableData = (
   useEffect(() => {
     const rows: TRow[] = [];
 
-    for (let i = 0; i < rowsAmount; i++) {
-      const row = generateRow(colsAmount);
+    for (let i = 0; i < +rowsAmount; i++) {
+      const row = generateRow(+colsAmount);
 
       rows.push(row);
     }
 
-    const columns = generateColumns(colsAmount);
+    const columns = generateColumns(+colsAmount);
 
     setTableData((prev) => ({ ...prev, columns, rows }));
   }, [data]);
@@ -124,7 +124,7 @@ export const useTableData = (
 
   const addRow = () => {
     if (tableData.rows.length < 100) {
-      const newRow = generateRow(colsAmount);
+      const newRow = generateRow(+colsAmount);
       const preparedRows = [...tableData.rows, newRow];
 
       setTableData((prev) => ({ ...prev, rows: preparedRows }));

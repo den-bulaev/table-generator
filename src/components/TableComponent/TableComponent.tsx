@@ -23,25 +23,23 @@ const TableComponent: React.FC<ITableProps> = (props) => {
   ) => {
     e.stopPropagation();
 
-    const childNodes = (e.target as HTMLTableCellElement).closest(
-      "tr"
-    )?.childNodes;
+    const childNodes = e.currentTarget.closest("tr")?.childNodes as
+      | NodeListOf<HTMLTableCellElement>
+      | undefined;
 
     if (!childNodes) {
       return;
     }
 
     childNodes.forEach((node) => {
-      if ((node as HTMLTableCellElement).className === "amount-cell") {
+      if (node.className === "amount-cell") {
         if (!node.textContent) {
           return;
         }
 
         const sumPercent = ((+node.textContent / rowSum) * 100).toFixed(1);
         node.textContent = `${sumPercent}%`;
-        (
-          node as HTMLTableCellElement
-        ).style.backgroundColor = `rgba(135, 0, 255, ${
+        node.style.backgroundColor = `rgba(135, 0, 255, ${
           (+sumPercent * columns.length) / 10
         }%)`;
       }
@@ -52,23 +50,22 @@ const TableComponent: React.FC<ITableProps> = (props) => {
     this: TNearestCellsCache,
     e: MouseEvent<HTMLTableCellElement>
   ) {
-    const targetNum = (e.target as HTMLTableCellElement).textContent;
+    const targetNum = e.currentTarget.textContent;
 
     if (!targetNum) {
       return;
     }
 
-    if (this.hoveredValueId === +(e.target as HTMLTableCellElement).id) {
+    if (this.hoveredValueId === +e.currentTarget.id) {
       prepareNearestCells(this.targetCells);
       return;
     }
 
-    const rowNodeList = (e.target as HTMLTableCellElement).closest("tr")
-      ?.parentNode?.childNodes;
+    const rowNodeList = e.currentTarget.closest("tr")?.parentNode?.childNodes;
 
     const allCells: HTMLTableCellElement[] = Array.prototype.map
-      .call(rowNodeList, (val) => {
-        const cellsCollection = val.cells as HTMLCollection;
+      .call(rowNodeList, (val: HTMLTableRowElement) => {
+        const cellsCollection = val.cells;
         const cellsArr: Element[] = [];
 
         for (const i of cellsCollection) {
@@ -82,22 +79,22 @@ const TableComponent: React.FC<ITableProps> = (props) => {
       .flat() as HTMLTableCellElement[];
 
     const filteredCells = allCells.filter(
-      (element) => element.id !== (e.target as HTMLTableCellElement).id
+      (element) => element.id !== e.currentTarget.id
     );
 
     filteredCells.sort((a, b) => {
-      const aNum = Number((a as HTMLTableCellElement).textContent);
-      const bNum = Number((b as HTMLTableCellElement).textContent);
+      const aNum = Number(a.textContent);
+      const bNum = Number(b.textContent);
 
       return Math.abs(aNum - +targetNum) - Math.abs(bNum - +targetNum);
     });
 
     const nearestCells = filteredCells.slice(0, +nearestCellsAmount);
 
-    prepareNearestCells(nearestCells as HTMLTableCellElement[]);
+    prepareNearestCells(nearestCells);
 
     this.targetCells = nearestCells;
-    this.hoveredValueId = +(e.target as HTMLTableCellElement).id;
+    this.hoveredValueId = +e.currentTarget.id;
   }
 
   function handleClickAmount(cell: TCell, nearest: HTMLTableCellElement[]) {

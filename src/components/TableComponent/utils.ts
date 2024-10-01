@@ -28,13 +28,19 @@ export const handleMouseOutSum = (
 ) => {
   e.stopPropagation();
 
-  (e.target as HTMLTableCellElement)
-    .closest("tr")
-    ?.childNodes.forEach((node, i) => {
-      if ((node as HTMLTableCellElement).className === "amount-cell") {
-        // ATTENTION i - 1 below means that first cell in a row is not "amount-cell"
-        node.textContent = String(rowCells[i - 1].amount);
-        (node as HTMLTableCellElement).style.backgroundColor = "";
-      }
-    });
+  const childNodes = e.currentTarget.closest("tr")?.childNodes as
+    | NodeListOf<HTMLTableCellElement>
+    | undefined;
+
+  if (!childNodes) {
+    return;
+  }
+
+  childNodes.forEach((node, i) => {
+    if (node.className === "amount-cell") {
+      // ATTENTION i - 1 below means that first cell in a row is not "amount-cell"
+      node.textContent = String(rowCells[i - 1].amount);
+      node.style.backgroundColor = "";
+    }
+  });
 };

@@ -30,7 +30,7 @@ const Modal: React.FC<IModalProps> = ({
     const data = {
       ...defaultModalData,
     };
-    const formData: FormData = new FormData(e.target as HTMLFormElement);
+    const formData: FormData = new FormData(e.currentTarget);
 
     for (const item of formData) {
       const [key, value] = item;

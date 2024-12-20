@@ -46,7 +46,7 @@ const ModalForm: React.FC<IModalFormProps> = (props) => {
         <form id="modal-form" className="modal-form" onSubmit={onSubmit}>
           <div className="modal-input-wrapper">
             <label className="modal-label" htmlFor="rows">
-              Rows number:
+              Rows amount:
             </label>
             <input
               id="rows"
@@ -64,7 +64,7 @@ const ModalForm: React.FC<IModalFormProps> = (props) => {
 
           <div className="modal-input-wrapper">
             <label htmlFor="cols" className="modal-label">
-              Columns number:
+              Columns amount:
             </label>
             <input
               id="cols"
@@ -81,7 +81,7 @@ const ModalForm: React.FC<IModalFormProps> = (props) => {
           </div>
           <div className="modal-input-wrapper">
             <label htmlFor="nearest" className="modal-label">
-              Nearest number:
+              Nearest numbers:
             </label>
             <input
               id="nearest"

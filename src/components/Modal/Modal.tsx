@@ -48,7 +48,7 @@ const Modal: React.FC<IModalProps> = ({
         <button className="btn-prime" onClick={() => setIsModalVisible(true)}>
           Manage table
         </button>
-        <button className="btn-prime " onClick={() => generateRow()}>
+        <button className="btn-prime" onClick={() => generateRow()}>
           Add row
         </button>
       </div>

@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import ModalForm from "./components/ModalForm/ModalForm";
 
@@ -20,6 +20,20 @@ const Modal: React.FC<IModalProps> = ({
   generateRow,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  useEffect(() => {
+    const bodyElement = document.querySelector("body");
+
+    if (isModalVisible && bodyElement) {
+      bodyElement.style.overflow = "hidden";
+    }
+
+    return () => {
+      if (bodyElement) {
+        bodyElement.style.overflow = "unset";
+      }
+    };
+  }, [isModalVisible]);
 
   const onCloseModal = () => {
     setIsModalVisible(false);

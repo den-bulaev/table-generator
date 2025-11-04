@@ -16,7 +16,13 @@ export const prepareNearestCells = (
   });
 };
 
-export function handleMouseOutAmountCell(this: TNearestCellsCache) {
+export function handleMouseOutAmountCell(
+  this: TNearestCellsCache,
+  timerRef: number | null
+) {
+  if (typeof timerRef === "number") {
+    clearTimeout(timerRef);
+  }
   if (this.targetCells.length) {
     prepareNearestCells(this.targetCells, true);
   }

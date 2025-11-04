@@ -18,6 +18,10 @@ table {
   background-color: rgb(243, 255, 237);
 }
 
+table.modal-open {
+  pointer-events: none;
+}
+
 table,
 th,
 td {

@@ -112,7 +112,7 @@ const TableComponent: React.FC<ITableProps> = (props) => {
   }
 
   return (
-    <table>
+    <table className="main-table">
       <TableHeader columns={columns} />
 
       <tbody>

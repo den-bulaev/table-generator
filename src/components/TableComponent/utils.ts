@@ -5,6 +5,7 @@ export const prepareNearestCells = (
   nearestCells: HTMLTableCellElement[],
   isReset = false
 ) => {
+
   nearestCells.forEach((cell) => {
     if (isReset) {
       cell.style.backgroundColor = "";

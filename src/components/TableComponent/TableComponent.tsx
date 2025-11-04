@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import { MouseEvent, useRef } from "react";
 
 import TableHeader from "./components/TableHeader";
 import TableFooter from "./components/TableFooter";
@@ -16,6 +16,8 @@ import "./TableComponent.css";
 const TableComponent: React.FC<ITableProps> = (props) => {
   const { rows, columns, nearestCellsAmount, onCellClick, handleDeleteRow } =
     props;
+
+  const timerRef = useRef<number | null>(null);
 
   const handleMouseOverSum = (
     e: MouseEvent<HTMLTableCellElement>,
@@ -51,50 +53,53 @@ const TableComponent: React.FC<ITableProps> = (props) => {
     e: MouseEvent<HTMLTableCellElement>
   ) {
     const targetNum = e.currentTarget.textContent;
-
-    if (!targetNum) {
-      return;
-    }
-
-    if (this.hoveredValueId === +e.currentTarget.id) {
-      prepareNearestCells(this.targetCells);
-      return;
-    }
-
+    const isHoveredEqualToId = this.hoveredValueId === +e.currentTarget.id;
     const rowNodeList = e.currentTarget.closest("tr")?.parentNode?.childNodes;
+    const ECurrTargetId = e.currentTarget.id;
 
-    const allCells: HTMLTableCellElement[] = Array.prototype.map
-      .call(rowNodeList, (val: HTMLTableRowElement) => {
-        const cellsCollection = val.cells;
-        const cellsArr: Element[] = [];
+    timerRef.current = setTimeout(() => {
+      if (!targetNum) {
+        return;
+      }
 
-        for (const i of cellsCollection) {
-          if (i.className === "amount-cell") {
-            cellsArr.push(i);
+      if (isHoveredEqualToId) {
+        prepareNearestCells(this.targetCells);
+        return;
+      }
+
+      const allCells: HTMLTableCellElement[] = Array.prototype.map
+        .call(rowNodeList, (val: HTMLTableRowElement) => {
+          const cellsCollection = val.cells;
+          const cellsArr: Element[] = [];
+
+          for (const i of cellsCollection) {
+            if (i.className === "amount-cell") {
+              cellsArr.push(i);
+            }
           }
-        }
 
-        return cellsArr;
-      })
-      .flat() as HTMLTableCellElement[];
+          return cellsArr;
+        })
+        .flat() as HTMLTableCellElement[];
 
-    const filteredCells = allCells.filter(
-      (element) => element.id !== e.currentTarget.id
-    );
+      const filteredCells = allCells.filter(
+        (element) => element.id !== ECurrTargetId
+      );
 
-    filteredCells.sort((a, b) => {
-      const aNum = Number(a.textContent);
-      const bNum = Number(b.textContent);
+      filteredCells.sort((a, b) => {
+        const aNum = Number(a.textContent);
+        const bNum = Number(b.textContent);
 
-      return Math.abs(aNum - +targetNum) - Math.abs(bNum - +targetNum);
-    });
+        return Math.abs(aNum - +targetNum) - Math.abs(bNum - +targetNum);
+      });
 
-    const nearestCells = filteredCells.slice(0, +nearestCellsAmount);
+      const nearestCells = filteredCells.slice(0, +nearestCellsAmount);
 
-    prepareNearestCells(nearestCells);
+      prepareNearestCells(nearestCells);
 
-    this.targetCells = nearestCells;
-    this.hoveredValueId = +e.currentTarget.id;
+      this.targetCells = nearestCells;
+      this.hoveredValueId = +ECurrTargetId;
+    }, 500);
   }
 
   function handleClickAmount(cell: TCell, nearest: HTMLTableCellElement[]) {
@@ -136,7 +141,7 @@ const TableComponent: React.FC<ITableProps> = (props) => {
                       handleClickAmount(cell, nearestCellsCache.targetCells)
                     }
                     onMouseOver={handleOverAmount}
-                    onMouseOut={handleOutAmount}
+                    onMouseOut={() => handleOutAmount(timerRef.current)}
                     key={cellInd + 1}
                   >
                     {cell.amount}

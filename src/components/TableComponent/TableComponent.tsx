@@ -103,6 +103,10 @@ const TableComponent: React.FC<ITableProps> = (props) => {
   }
 
   function handleClickAmount(cell: TCell, nearest: HTMLTableCellElement[]) {
+    if (typeof timerRef.current === "number") {
+      clearTimeout(timerRef.current);
+    }
+
     prepareNearestCells(nearest, true);
     onCellClick(cell);
   }

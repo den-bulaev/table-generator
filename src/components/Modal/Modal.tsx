@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 import ModalForm from "./components/ModalForm/ModalForm";
 
@@ -20,6 +20,7 @@ const Modal: React.FC<IModalProps> = ({
   generateRow,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const bodyElement = document.querySelector("body");
@@ -36,6 +37,18 @@ const Modal: React.FC<IModalProps> = ({
   }, [isModalVisible]);
 
   const onCloseModal = () => {
+    const tableElement = document.querySelector("table.main-table");
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    if (tableElement) {
+      timerRef.current = setTimeout(() => {
+        tableElement.classList.remove("modal-open");
+      }, 100);
+    }
+
     setIsModalVisible(false);
   };
 
@@ -53,13 +66,22 @@ const Modal: React.FC<IModalProps> = ({
     }
 
     onSubmitModal(data);
-    setIsModalVisible(false);
+    onCloseModal();
+  };
+
+  const handleModalOpen = () => {
+    const tableElement = document.querySelector("table.main-table");
+    if (tableElement) {
+      tableElement.classList.add("modal-open");
+    }
+
+    setIsModalVisible(true);
   };
 
   return (
     <div className="modal-container">
       <div className="modal-btn-block">
-        <button className="btn-prime" onClick={() => setIsModalVisible(true)}>
+        <button className="btn-prime" onClick={handleModalOpen}>
           Manage table
         </button>
         <button className="btn-prime" onClick={() => generateRow()}>
